@@ -1,0 +1,7 @@
+functions-framework==3.*
+beautifulsoup4==4.12.2
+bs4==0.0.1
+pandas==2.1.0
+requests==2.31.0
+google-cloud-logging
+google-cloud-storage

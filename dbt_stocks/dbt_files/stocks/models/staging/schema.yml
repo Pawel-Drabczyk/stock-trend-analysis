@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: stg_finance_reports
+    config:
+      description: |
+          """Staging view for financial reports. The data is loaded from the finance-reports-data-sink bucket
+          via external table. The data in external table are partitioned by dt column."""
+      columns:
+        - name: company_name
+          description: 'Company Name in the finance report format'
+          type: string
+        - name: symbol
+          description: 'Company Symbol in the finance report format'
+          type: string
+        - name: type
+          description: 'Type of the finance report'
+          type: string
+        - name: description
+          description: 'Description of the finance report'
+          type: string
+        - name: report_date
+          description: 'Date of the finance report'
+          type: DATE
+        - name: dt
+          description: 'Partition column for the finance reports. It should be equal to report_date. Filtering on the dt
+            column may be used to reduce the amount of data loaded from the external table.'
+          type: DATE
+  - name: stg_stocks_candles
+    config:
+      description: |
+        """Staging view for stocks candles. The data is loaded from the stocks-candles-data-sink bucket
+        via external table. The data in external table are partitioned by dt column."""
+      columns:
+        - name: name
+          description: 'Company Name in the stock candles format'
+          type: string
+        - name: isin_code
+          description: 'ISIN Code of the compnay'
+          type: string
+        - name: currency
+          description: 'Currency of the stock candles. Possible values: PLN, EUR, possibly others'
+          type: string
+        - name: open_price
+          description: 'Open price of the stock'
+          type: float
+        - name: high_price
+          description: 'High price of the stock'
+          type: float
+        - name: low_price
+          description: 'Low price of the stock'
+          type: float
+        - name: close_price
+          description: 'Close price of the stock'
+          type: float
+        - name: volume
+          description: 'Volume of the stock'
+          type: float
+        - name: trasaction_count
+          description: 'Number of transactions of the stock'
+          type: int
+        - name: turnover
+          description: 'Turnover'
+          type: float
+        - name: date
+          description: 'Date of the stock candles'
+          type: DATE
+        - name: dt
+          description: 'Partition column for the stock candles. Filtering on the dt column may be used to reduce the amount of data loaded from the external table.'
+          type: DATE

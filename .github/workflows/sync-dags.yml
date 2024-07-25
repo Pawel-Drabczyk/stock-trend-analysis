@@ -1,0 +1,42 @@
+# This workflow syncs the contents of the source/dags directory to a GCS bucket.
+# The dag files are then available to the Composer environment.
+
+#name: Sync DAGs to GCS
+#
+#on:
+#  push:
+#    branches: [ master ]
+#    paths:
+#      - 'source/dags/**'
+#      - 'dbt_stocks/dbt_files/**'
+#
+#jobs:
+#  sync:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v2
+#
+#      - name: Authenticate to Google Cloud
+#        uses: google-github-actions/auth@v2
+#        with:
+#          project_id: ${{ vars.GCP_PROJECT_ID }}
+#          credentials_json: ${{ secrets.DAGS_SYNC_GCP_SA_KEY }}
+#
+#      - name: Set up Google Cloud CLI
+#        uses: google-github-actions/setup-gcloud@v2.1.0
+#
+#      - name: Terraform Init
+#        run: terraform init
+#        working-directory: ./terraform
+#
+#      # Dynamically set GCS_BUCKET from Terraform output
+#      # This step assumes Terraform is configured and initialized
+#      - name: Get GCS Bucket Name from Terraform Output
+#        id: terraform-output
+#        run: |
+#          echo "GCS_BUCKET=$(terraform output -raw composer_dag_gcs_prefix)" >> $GITHUB_ENV
+#        working-directory: ./terraform
+#
+#      - name: Sync airflow files to GCS Bucket, mirroring deletion.
+#        run: gsutil -m rsync -d -r ./source/dags ${{ env.GCS_BUCKET }}

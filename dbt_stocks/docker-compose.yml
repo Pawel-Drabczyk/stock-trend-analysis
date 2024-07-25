@@ -1,0 +1,15 @@
+version: '3'
+services:
+  dbt-stocks:
+    build:
+      context: ../.
+      dockerfile: "dbt_stocks/Dockerfile"
+    volumes:
+      - ./dbt_files:/app_dependencies/dbt_files
+      - ./entrypoint.sh:/app_dependencies/entrypoint.sh
+      - ./profiles.yml:/app_dependencies/profiles.yml
+      - ../../keys/dbt-dev-sa.json:/keys/dbt-dev-sa.json
+    ports:
+      - "8080:8080"
+    env_file:
+      - docker-compose-configmap.env

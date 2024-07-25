@@ -1,0 +1,5 @@
+[flake8]
+max-line-length = 120
+per-file-ignores =
+    # Ignore E501 for files that you know have longer lines
+    tests/test_finance_reports/conftest.py: E501

@@ -1,0 +1,78 @@
+version: 2
+sources:
+ - name: finance_reports
+   loader: gcloud storage
+   tables:
+     - name: finance_reports
+       external:
+         location: 'gs://finance-reports-data-sink/dt=*'
+         options:
+           format: csv
+           skip_leading_rows: 1
+           hive_partition_uri_prefix: 'gs://finance-reports-data-sink/'
+         partitions:
+           - name: dt
+             data_type: DATE
+       columns:
+        - name: company_name
+          data_type: string
+          description: 'Company Name in the finance report format'
+        - name: symbol
+          data_type: string
+          description: 'Company Symbol in the finance report format'
+        - name: type
+          data_type: string
+          description: 'Type of the finance report'
+        - name: description
+          data_type: string
+          description: 'Description of the finance report'
+        - name: report_date
+          data_type: string
+          description: 'Date of the finance report'
+ - name: stocks_candles
+   loader: gcloud storage
+   tables:
+     - name: stocks_candles
+       external:
+         location: 'gs://stocks-candles-data-sink/dt=*'
+         options:
+           format: csv
+           skip_leading_rows: 1
+           hive_partition_uri_prefix: 'gs://stocks-candles-data-sink/'
+         partitions:
+           - name: dt
+             data_type: DATE
+         columns:
+           - name: name
+             data_type: string
+             description: 'Company Name in the stock candles format'
+           - name: isin_code
+             data_type: string
+             description: 'ISIN Code of the compnay'
+           - name: currency
+             data_type: string
+             description: 'Currency of the stock candles. Possible values: PLN, EUR, possibly others'
+           - name: open_price
+             data_type: float
+             description: 'Open price of the stock'
+           - name: high_price
+             data_type: float
+             description: 'High price of the stock'
+           - name: low_price
+             data_type: float
+             description: 'Low price of the stock'
+           - name: close_price
+             data_type: float
+             description: 'Close price of the stock'
+           - name: price_change_percentage
+             data_type: float
+             description: 'Price change percentage of the stock'
+           - name: volume
+             data_type: float
+             description: 'Volume of the stocks'
+           - name: turnover
+             data_type: float
+             description: 'Turnover'
+           - name: candles_date
+             data_type: string
+             description: 'Date of the stock candles'

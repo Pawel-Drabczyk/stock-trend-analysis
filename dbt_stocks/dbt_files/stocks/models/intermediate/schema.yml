@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: int_finance_reports_with_isins
+    config:
+      description: |
+          """Intermediate view for finance reports. Added isin_code column from the isin mapping."""
+      columns:
+        - name: company_name
+          description: 'Company Name in the finance report format'
+          type: string
+        - name: symbol
+          description: 'Company Symbol in the finance report format'
+          type: string
+        - name: type
+          description: 'Type of the finance report'
+          type: string
+        - name: description
+          description: 'Description of the finance report'
+          type: string
+        - name: report_date
+          description: 'Date of the finance report'
+          type: DATE
+        - name: dt
+          description: 'Partition column for the finance reports. It should be equal to report_date. Filtering on the dt
+            column may be used to reduce the amount of data loaded from the external table.'
+          type: DATE
+        - name: isin_code
+          description: 'Official isin_code of the company.'
+          type: string
+          tests:
+            - not_null
